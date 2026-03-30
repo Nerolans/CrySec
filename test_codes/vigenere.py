@@ -4,14 +4,10 @@ newS = ""
 count = 0
 
 for char in s:
-    b_char = char.encode("utf-8")[0]
     key_char = key[count % len(key)]
-    b_key = key_char.encode("utf-8")[0]
 
-    print(key_char, " KEY ", format(b_key, "08b"))
-    print(char,     " CHR ", format(b_char, "08b"))
-
-    b_xor = b_char ^ b_key
+    b_xor = (ord(char) + ord(key_char)-65)%26
+    b_xor += 65
     print(chr(b_xor), " RLT ", format(b_xor, "08b"))
     print()
 
