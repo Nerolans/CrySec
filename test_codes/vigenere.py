@@ -1,18 +1,17 @@
 s = "abcdef"
-key = "HM"
+key = "bbcdef"
 newS = ""
 count = 0
 
 for char in s:
     key_char = key[count % len(key)]
+    char = char.lower()
+    k = ord(key_char)-97
+    c = ord(char)-97
+    newC = ((k + c)%26)+65
+    print(chr(newC), " RLT ")
 
-    b_xor = (ord(char) + ord(key_char)-65)%26
-    b_xor += 65
-    print(chr(b_xor), " RLT ", format(b_xor, "08b"))
-    print()
-
-    newS += chr(b_xor)
-
+    newS += chr(newC)
     count += 1
 
 print("\nFinal:", newS)
