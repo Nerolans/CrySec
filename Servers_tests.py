@@ -3,10 +3,48 @@ from Payload import PayloadHandler, PayloadType
 from test_codes.cypher import shift_encode
 from test_codes.vigenere import vigenere_encode
 from test_codes.XOR import XOR_encode
-
+import sys
 
 ip_server = 'vlbelintrocrypto.hevs.ch'
 port_server = 6000
+
+def run_chat_mode():
+    # 1. Configuration du client
+    client = NetworkClient('vlbelintrocrypto.hevs.ch', 6000)
+
+    # 2. On définit ce qu'on fait quand on reçoit un message
+    def on_message(msg_type, text):
+        # Efface la ligne actuelle (le "> "), affiche le message, et remet le "> "
+        sys.stdout.write('\r\033[K')
+        print(f"\r[Message Reçu] : {text}")
+        sys.stdout.write('> ')
+        sys.stdout.flush()
+
+    client.set_callback(on_message)
+
+    try:
+        client.connect()
+        client.start_listening() # LE THREAD SE LANCE ICI
+
+        print("\n--- BIENVENUE DANS LE CHAT ---")
+        print("(Tapez '/quit' pour revenir au menu principal)")
+
+        # 3. Boucle d'envoi (le thread d'écoute tourne tout seul à côté)
+        while True:
+            msg = input("> ")
+
+            if msg.lower() == '/quit':
+                print("Retour au menu...")
+                break
+
+            if msg.strip():
+                # On envoie le message au serveur
+                client.send(PayloadType.TEXT, msg)
+
+    except Exception as e:
+        print(f"Erreur de connexion : {e}")
+    finally:
+        client.disconnect()
 
 def run_server_task(algo_name: str):
     action = input("Action (encode/decode) [default: encode]: ") or "encode"
