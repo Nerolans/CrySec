@@ -12,7 +12,6 @@ def shift_findKey(msg):
     result = 0
     found = False
 
-
     while found is False:
         char = mode(msg)
         tmpKey = abs((ord(char)-ord('e')))

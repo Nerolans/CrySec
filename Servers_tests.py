@@ -10,6 +10,8 @@ from test_codes.XOR import XOR_encode
 from test_codes.hash import hash
 from test_codes.hash import verify
 
+from test_codes.RSA import rsa_encode
+
 import sys
 
 ip_server = 'vlbelintrocrypto.hevs.ch'
@@ -131,6 +133,43 @@ def run_server_hash():
         elif action == "verify":
             res = ""
             #res = verify(secret,hash)
+
+        client.send(PayloadType.SERVER, res)
+        _, verdict = client.receive()
+        print(f"Verdict: {verdict}")
+
+    finally:
+        client.disconnect()
+
+def run_server_rsa():
+    action = input("Action (encode/decode) [default: encode]: ") or "encode"
+    param = input("Paramètre (ex: 6 ou 200) [default: 6]: ") or "6"
+    full_command = f"task RSA {action} {param}"
+    client = NetworkClient(ip_server, port_server)
+
+    try:
+        client.connect()
+        client.send(PayloadType.SERVER, full_command)
+
+        msg_type, *_, instr = client.receive()
+        print(f"Instruction: {instr}")
+
+        if "Unknown" in instr or "Wrong" in instr:
+            return
+
+        _, secret = client.receive()
+        print(f"Secret: {secret}")
+
+        words = instr.split()
+        key = words[-1]
+
+        if action == "encode":
+            n = instr.split("n=")[1].split(",e")[0]
+            e = instr.split("e=")[1]
+            res = rsa_encode(secret, n, e)
+        elif action == "verify":
+            res = ""
+            # res = verify(secret,hash)
 
         client.send(PayloadType.SERVER, res)
         _, verdict = client.receive()
