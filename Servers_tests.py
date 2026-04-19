@@ -126,28 +126,11 @@ def run_server_hash():
         words = instr.split()
         key = words[-1]
 
-        if algo_name == "shift":
-            if action == "encode":
-                res = shift_encode(secret, int(key))
-            elif action == "decode":
-                res = str(shift_findKey(secret))
-
-        elif algo_name == "vigenere":
-            if action == "encode":
-                res = vigenere_encode(secret, key)
-            elif action == "decode":
-                res = ""#vigenere_decode(secret, key)
-
-            '''
-        elif algo_name == "hash":
-            if action == "hash":
-                res = hash(secret)
-            elif action == "verify":
-                res = verify(secret,hash)
-            '''
-
-        elif "xor" in algo_name:
-            res = XOR_encode(secret, key)
+        if action == "hash":
+            res = hash(secret)
+        elif action == "verify":
+            res = ""
+            #res = verify(secret,hash)
 
         client.send(PayloadType.SERVER, res)
         _, verdict = client.receive()

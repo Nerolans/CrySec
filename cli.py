@@ -21,7 +21,7 @@ def main():
         elif choix == "3":
             run_server_task("sym-xor")
         elif choix == "4":
-            run_server_task("hash")
+            run_server_hash()
         elif choix == "5":
             run_chat_mode()
         elif choix == "q":
