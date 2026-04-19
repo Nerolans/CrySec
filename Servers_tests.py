@@ -1,10 +1,15 @@
 from clientConnect import NetworkClient
 from Payload import PayloadHandler, PayloadType
+
 from test_codes.cypher import shift_encode
 from test_codes.cypher import shift_findKey
+
 from test_codes.vigenere import vigenere_encode
-from test_codes.vigenere import vigenere_decode
 from test_codes.XOR import XOR_encode
+
+from test_codes.hash import hash
+from test_codes.hash import verify
+
 import sys
 
 ip_server = 'vlbelintrocrypto.hevs.ch'
@@ -80,7 +85,15 @@ def run_server_task(algo_name: str):
             if action == "encode":
                 res = vigenere_encode(secret, key)
             elif action == "decode":
-                res = vigenere_decode(secret, key)
+                res = ""#vigenere_decode(secret, key)
+
+            '''
+        elif algo_name == "hash":
+            if action == "hash":
+                res = hash(secret)
+            elif action == "verify":
+                res = verify(secret,hash)
+            '''
 
         elif "xor" in algo_name:
             res = XOR_encode(secret, key)
