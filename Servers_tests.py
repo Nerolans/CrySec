@@ -104,3 +104,54 @@ def run_server_task(algo_name: str):
 
     finally:
         client.disconnect()
+
+def run_server_hash():
+    action = input("Action (hash/verify) [default: hash]: ") or "hash"
+    full_command = f"task hash {action}"
+    client = NetworkClient(ip_server, port_server)
+
+    try:
+        client.connect()
+        client.send(PayloadType.SERVER, full_command)
+
+        msg_type, *_, instr = client.receive()
+        print(f"Instruction: {instr}")
+
+        if "Unknown" in instr or "Wrong" in instr:
+            return
+
+        _, secret = client.receive()
+        print(f"Secret: {secret}")
+
+        words = instr.split()
+        key = words[-1]
+
+        if algo_name == "shift":
+            if action == "encode":
+                res = shift_encode(secret, int(key))
+            elif action == "decode":
+                res = str(shift_findKey(secret))
+
+        elif algo_name == "vigenere":
+            if action == "encode":
+                res = vigenere_encode(secret, key)
+            elif action == "decode":
+                res = ""#vigenere_decode(secret, key)
+
+            '''
+        elif algo_name == "hash":
+            if action == "hash":
+                res = hash(secret)
+            elif action == "verify":
+                res = verify(secret,hash)
+            '''
+
+        elif "xor" in algo_name:
+            res = XOR_encode(secret, key)
+
+        client.send(PayloadType.SERVER, res)
+        _, verdict = client.receive()
+        print(f"Verdict: {verdict}")
+
+    finally:
+        client.disconnect()
