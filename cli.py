@@ -23,7 +23,10 @@ def main():
         elif choix == "4":
             run_server_hash()
         elif choix == "5":
+            run_server_rsa()
+        elif choix == "6":
             run_chat_mode()
+
         elif choix == "q":
             break
 
