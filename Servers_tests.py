@@ -164,13 +164,13 @@ def run_server_rsa():
         key = words[-1]
 
         if action == "encode":
-            n = instr.split("n=")[1].split(",e")[0]
+            n = instr.split("n=")[1].split(", e")[0]
             e = instr.split("e=")[1]
-            res = rsa_encode(secret, n, e)
+            res = rsa_encode(secret, int(n), int(e))
         elif action == "verify":
             res = ""
             # res = verify(secret,hash)
-
+        print(res)
         client.send(PayloadType.SERVER, res)
         _, verdict = client.receive()
         print(f"Verdict: {verdict}")

@@ -1,8 +1,7 @@
 import hashlib
 
 def hash(msg):
-    newS = hashlib.sha256(msg.encode())
-    print(newS.hexdigest())
+    newS = hashlib.sha256(msg.encode("utf-32"))
     return newS.hexdigest()
 
 def verify(msg, hash):

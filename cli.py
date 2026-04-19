@@ -9,7 +9,8 @@ def main():
         print("2. VIGENERE")
         print("3. Test XOR ")
         print("4. HASH")
-        print("5. Entrer dans le CHAT")
+        print("5. RSA")
+        print("6. Entrer dans le CHAT")
         print("q. Quitter")
 
         choix = input("\n> ")

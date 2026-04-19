@@ -5,10 +5,11 @@ import secrets
 
 def rsa_encode(msg, n, e):
     result = ""
+    print(pow(ord('h'), 8484347, 2061654263))
     for char in msg:
-        newChr = pow(ord(char), e, n)
-        result += chr(newChr) + " "
-
+        newChr = (pow(ord(char), e, n))
+        result += str(newChr) + " "
+    result = result[:-1]
     return result
 
 def rsa_decode():
