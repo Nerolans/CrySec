@@ -1,7 +1,9 @@
 from clientConnect import NetworkClient
 from Payload import PayloadHandler, PayloadType
 from test_codes.cypher import shift_encode
+from test_codes.cypher import shift_findKey
 from test_codes.vigenere import vigenere_encode
+from test_codes.vigenere import vigenere_decode
 from test_codes.XOR import XOR_encode
 import sys
 
@@ -69,9 +71,17 @@ def run_server_task(algo_name: str):
         key = words[-1]
 
         if algo_name == "shift":
-            res = shift_encode(secret, int(key))
+            if action == "encode":
+                res = shift_encode(secret, int(key))
+            elif action == "decode":
+                res = str(shift_findKey(secret))
+
         elif algo_name == "vigenere":
-            res = vigenere_encode(secret, key)
+            if action == "encode":
+                res = vigenere_encode(secret, key)
+            elif action == "decode":
+                res = vigenere_decode(secret, key)
+
         elif "xor" in algo_name:
             res = XOR_encode(secret, key)
 
