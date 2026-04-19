@@ -2,11 +2,11 @@ import math
 import secrets
 
 def rsa_encode(msg, n, e):
+    print(msg)
     result = ""
-    print(pow(ord('h'), 8484347, 2061654263))
     for char in msg:
-        newChr = (pow(ord(char), e, n))
-        result += str(newChr) + " "
+        number = pow(ord(char), e, n)
+        result += str(number) + " "
     result = result[:-1]
     return result
 
