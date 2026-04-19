@@ -2,13 +2,43 @@ import math
 import secrets
 
 def rsa_encode(msg, n, e):
-    print(msg)
     result = ""
     for char in msg:
-        number = pow(ord(char), e, n)
+        #en mode little indian sinon les caractères spéciaux sont mals convertis un seul code unicode à la place de 2 octets
+        fullValue = int.from_bytes(char.encode('utf-8'), 'little')
+
+        number = pow(fullValue, e, n)
         result += str(number) + " "
     result = result[:-1]
+
     return result
+
+'''
+def clean_secret(corrupted_secret):
+    fixed_chars = []
+    for char in corrupted_secret:
+        if ord(char) > 255:
+            try:
+                real_char = char.encode('utf-16le').decode('utf-8')
+                fixed_chars.append(real_char)
+            except:
+                fixed_chars.append(char)
+        else:
+            fixed_chars.append(char)
+    return "".join(fixed_chars)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def rsa_decode():
     #generate two prime number
@@ -66,5 +96,5 @@ def isPrime(n):
             return False
         else:
             return True
-
+'''
 
