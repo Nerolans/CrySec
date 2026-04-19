@@ -7,8 +7,8 @@ from test_codes.cypher import shift_findKey
 from test_codes.vigenere import vigenere_encode
 from test_codes.XOR import XOR_encode
 
-from test_codes.hash import hash
-from test_codes.hash import verify
+from test_codes.hash import *
+
 
 import sys
 
@@ -120,14 +120,17 @@ def run_server_hash():
         if "Unknown" in instr or "Wrong" in instr:
             return
 
-        _, secret = client.receive()
+
+        _, corrupted_secret = client.receive()
+        secret = clean_secret(corrupted_secret)
+        print(secret)
         print(f"Secret: {secret}")
 
         words = instr.split()
         key = words[-1]
 
         if action == "hash":
-            res = hash(secret)
+            res = hash_1(secret)
         elif action == "verify":
             res = ""
             #res = verify(secret,hash)

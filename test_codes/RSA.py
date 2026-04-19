@@ -1,8 +1,6 @@
 import math
 import secrets
 
-
-
 def rsa_encode(msg, n, e):
     result = ""
     for char in msg:
