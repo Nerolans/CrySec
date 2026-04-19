@@ -27,6 +27,11 @@ class NetworkClient:
         message_binaire = PayloadHandler.build_payload(msg_type, text)
         self.socket.sendall(message_binaire)
 
+    def receive(self):
+        print("En attente")
+        reponse_brut = self.socket.recv(4096)
+        return PayloadHandler.parse_payload(reponse_brut)
+
 
     def set_callback(self, callback):
         self.callback = callback
