@@ -3,11 +3,11 @@ import secrets
 
 def rsa_encode(msg, n, e):
     print(msg)
-    result = ""
+    result = b""
     for char in msg:
         number = pow(ord(char), e, n)
-        result += str(number) + " "
-    result = result[:-1]
+        result += int.to_bytes(number, length=4)
+    #result = result[:-1]
     return result
 
 def rsa_decode():

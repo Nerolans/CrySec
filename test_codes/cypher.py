@@ -4,7 +4,7 @@ def shift_encode(msg, key):
     k = int(key)
     result = ""
     for char in msg:
-        new_code = (ord(char) + k) % 256
+        new_code = (ord(char) + k)
         result += chr(new_code)
     return result
 

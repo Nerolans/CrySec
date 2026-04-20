@@ -10,8 +10,12 @@ class PayloadHandler:
     HEADER = b"ISC"
 
 
-    def build_payload(msg_type: PayloadType, text: str) -> bytes:
-        encoded_msg = text.encode('utf-32-be')
+    def build_payload(msg_type: PayloadType, text: str|bytes) -> bytes:
+        ##Pour le RSA oubliger d'envoyer en bytes pour que sa fonctionne
+        if isinstance(text, str):
+            encoded_msg = text.encode('utf-32-be')
+        else:
+            encoded_msg = text
         length = (len(encoded_msg) // 4).to_bytes(2, byteorder='big')
 
         return PayloadHandler.HEADER + msg_type.value + length + encoded_msg
@@ -22,4 +26,6 @@ class PayloadHandler:
         msg_type = data[3:4]
         payload_bytes = data[6:]
         text = payload_bytes.decode('utf-32-be', errors='replace')
+        ##text_clean = clean_secret(text)
         return msg_type, text
+
