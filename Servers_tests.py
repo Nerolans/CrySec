@@ -174,3 +174,46 @@ def run_server_rsa():
 
     finally:
         client.disconnect()
+
+def run_server_diffie():
+    full_command = f"task DifHel"
+    client = NetworkClient(ip_server, port_server)
+
+    try:
+        client.connect()
+        client.send(PayloadType.SERVER, full_command)
+
+        msg_type, *_, instr = client.receive()
+        print(f"Instruction: {instr}")
+
+        if "Unknown" in instr or "Wrong" in instr:
+            return
+
+        words = instr.split()
+        key = words[-1]
+
+        #first part
+        prime = generate_prime(1000,5000)
+        generator = find_p_root(prime)
+        res = str(prime)+","+str(generator)
+        print(res)
+        client.send(PayloadType.SERVER, res)
+        _, answer = client.receive()
+        print(answer)
+
+        #second part (generate our own public key)
+        _, b_public = client.receive()
+        private = generate_private()
+        a_public = generate_publicKey(prime,generator, private)
+        client.send(PayloadType.SERVER, str(a_public))
+        _, answer = client.receive()
+        print(answer)
+
+        #third part (generate secret)
+        secret = calculate_secret(int(b_public), private, prime)
+        client.send(PayloadType.SERVER, str(secret))
+        _, answer = client.receive()
+        print(answer)
+
+    finally:
+        client.disconnect()
