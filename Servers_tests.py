@@ -57,9 +57,9 @@ def run_chat_mode():
     finally:
         client.disconnect()
 
-def run_server_task(algo_name: str):
-    action = input("Action (encode/decode) [default: encode]: ") or "encode"
-    param = input("Paramètre (ex: 6 ou 12) [default: 6]: ") or "6"
+def run_server_task(algo_name: str,action,param = 6, gui=None):
+    #action = input("Action (encode/decode) [default: encode]: ") or "encode"
+    #param = input("Paramètre (ex: 6 ou 12) [default: 6]: ") or "6"
 
     full_command = f"task {algo_name} {action} {param}"
     client = NetworkClient(ip_server,port_server)
@@ -69,12 +69,14 @@ def run_server_task(algo_name: str):
 
         msg_type, *_, instr = client.receive()
         print(f"Instruction: {instr}")
+        gui.append(f"Instruction: {instr}")
 
         if "Unknown" in instr or "Wrong" in instr:
             return
 
         _, secret = client.receive()
         print(f"Secret: {secret}")
+        gui.append(f"Secret: {secret}")
 
         words = instr.split()
         key = words[-1]
@@ -82,12 +84,15 @@ def run_server_task(algo_name: str):
         if algo_name == "shift":
             if action == "encode":
                 res = shift_encode(secret, int(key))
+                gui.append(f"message encoder : {res}")
             elif action == "decode":
                 res = str(shift_findKey(secret))
+                gui.append(f"message encoder : {res}")
 
         elif algo_name == "vigenere":
             if action == "encode":
                 res = vigenere_encode(secret, key)
+                gui.append(f"message encoder : {res}")
             elif action == "decode":
                 res = ""#vigenere_decode(secret, key)
 
@@ -97,6 +102,7 @@ def run_server_task(algo_name: str):
         client.send(PayloadType.SERVER, res)
         _, verdict = client.receive()
         print(f"Verdict: {verdict}")
+        gui.append(f"Verdict: {verdict}")
 
     finally:
         client.disconnect()
