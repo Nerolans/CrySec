@@ -10,7 +10,8 @@ def main():
         print("3. Test XOR ")
         print("4. HASH")
         print("5. RSA")
-        print("6. Entrer dans le CHAT")
+        print("6. Diffie-Hellman")
+        print("7. Entrer dans le CHAT")
         print("q. Quitter")
 
         choix = input("\n> ")
@@ -26,6 +27,8 @@ def main():
         elif choix == "5":
             run_server_rsa()
         elif choix == "6":
+            run_server_diffie()
+        elif choix == "7":
             run_chat_mode()
 
         elif choix == "q":
