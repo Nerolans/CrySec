@@ -1,3 +1,5 @@
+import time
+
 from clientConnect import NetworkClient
 from Payload import PayloadHandler, PayloadType
 
@@ -9,11 +11,9 @@ from test_codes.XOR import XOR_encode
 
 from test_codes.hash import *
 
-
 from test_codes.Diffie import *
 
-from test_codes.RSA import rsa_encode
-
+from test_codes.RSA import rsa_encode, rsa_decodeFirst, rsa_decodeSecond
 import sys
 
 ip_server = 'vlbelintrocrypto.hevs.ch'
@@ -154,20 +154,27 @@ def run_server_rsa():
         if "Unknown" in instr or "Wrong" in instr:
             return
 
-        _, secret = client.receive()
-        print(f"Secret: {secret}")
+        ##ici rien a recevoir si l'action est "decode"
+
 
         words = instr.split()
         key = words[-1]
 
         if action == "encode":
+            _, secret = client.receive()
+            print(f"Secret: {secret}")
             n = instr.split("n=")[1].split(", e")[0]
             e = instr.split("e=")[1]
             res = rsa_encode(secret, int(n), int(e))
-        elif action == "verify":
-            res = ""
-            # res = verify(secret,hash)
-        print(res)
+        elif action == "decode":
+            res = rsa_decodeFirst()
+            n = res[0]
+            e = res[1]
+            d = res[2]
+            client.send(PayloadType.SERVER, str(str(n)+","+str(e)))
+            _, answer = client.receive()
+            res = rsa_decodeSecond(answer,d,n)
+
         client.send(PayloadType.SERVER, res)
         _, verdict = client.receive()
         print(f"Verdict: {verdict}")
@@ -196,7 +203,6 @@ def run_server_diffie():
         prime = generate_prime(1000,5000)
         generator = find_p_root(prime)
         res = str(prime)+","+str(generator)
-        print(res)
         client.send(PayloadType.SERVER, res)
         _, answer = client.receive()
         print(answer)
