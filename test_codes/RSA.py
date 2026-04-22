@@ -35,12 +35,9 @@ def generate_keys():
     #genretes prime numbers WORKS
     p1 = generate_prime(10, 100)
     p2 = generate_prime(10, 100)
-    print("p1:", p1)
-    print("p2:", p2)
 
     #Totient WORKS
     semiPrime_n = p1*p2
-    print(semiPrime_n)
     keyPublic_e = 0
     keyPrivate_d = 0
 
