@@ -5,7 +5,6 @@ import random
 
 def generate_prime(min, max):
     list_prime = [i for i in range(min, max) if isPrime(i)]
-    print(list_prime)
     random_prime = random.choice(list_prime)
     return random_prime
 
