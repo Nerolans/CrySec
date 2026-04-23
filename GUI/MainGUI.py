@@ -15,9 +15,6 @@ class ProjetCrypto(QtWidgets.QMainWindow):
         super(ProjetCrypto, self).__init__()
         uic.loadUi('Gui.ui', self)
 
-        self.frame_Shift.hide()
-        self.frame_Vigenere.hide()
-
         #-------------------------------------------------------------------------------------------------------------------
         # Bouton dans la frame shift
         self.btn_mode_shift.clicked.connect(self.activer_shift)

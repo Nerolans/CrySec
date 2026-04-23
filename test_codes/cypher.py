@@ -8,6 +8,9 @@ def shift_encode(msg, key):
         result += chr(new_code)
     return result
 
+def shift_decode(msg, key):
+    shift_encode(msg, -key)
+
 def shift_findKey(msg):
     result = 0
     found = False
