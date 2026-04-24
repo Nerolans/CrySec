@@ -101,6 +101,9 @@ def run_server_task(algo_name: str,action,param = 6, gui=None):
                 n = res[0]
                 e = res[1]
                 d = res[2]
+                client.send(PayloadType.SERVER, str(str(n) + "," + str(e)))
+                _, answer = client.receive()
+                res = rsa_decodeSecond(answer, d, n)
 
         elif algo_name == "DifHel":
             #first part

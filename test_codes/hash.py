@@ -16,7 +16,6 @@ def clean_secret(corrupted_secret):
 def hash_1(msg):
     msg_encode = msg.encode('utf-8')
     newS = hashlib.sha256(msg_encode)
-    print(newS.hexdigest())
     return newS.hexdigest()
 
 def verify(msg, hash):
