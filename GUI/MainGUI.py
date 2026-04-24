@@ -2,7 +2,6 @@
 import sys
 
 from PyQt6 import uic, QtWidgets
-from Gui import Ui_MainWindow
 
 
 from Servers_tests import run_server_task, run_server_hash, run_server_diffie, run_server_rsa, run_chat_mode

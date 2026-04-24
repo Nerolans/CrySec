@@ -75,7 +75,6 @@ def run_server_task(algo_name: str,action,param = 6, gui=None):
         words = instr.split()
         key = words[-1]
 
-
         if algo_name == "shift":
             if action == "encode":
                 res = shift_encode(secret, int(key))
@@ -109,6 +108,34 @@ def run_server_task(algo_name: str,action,param = 6, gui=None):
                 gui.append(f"le message coder est : {answer}")
                 res = rsa_decodeSecond(answer,d,n)
                 gui.append(f"le message decoder est : {res}")
+
+
+        elif algo_name == "DifHel":
+            #first part
+            prime = generate_prime(1000,5000)
+            generator = find_p_root(prime)
+            res = str(prime)+","+str(generator)
+            client.send(PayloadType.SERVER, res)
+            _, answer = client.receive()
+            print(answer)
+
+            #second part (generate our own public key)
+            _, b_public = client.receive()
+            private = generate_private()
+            a_public = generate_publicKey(prime,generator, private)
+            client.send(PayloadType.SERVER, str(a_public))
+            _, answer = client.receive()
+            print(answer)
+
+            #third part (generate secret)
+            secret = calculate_secret(int(b_public), private, prime)
+            client.send(PayloadType.SERVER, str(secret))
+            _, answer = client.receive()
+            print(answer)
+
+        client.send(PayloadType.SERVER, str(str(n)+","+str(e)))
+        _, answer = client.receive()
+        res = rsa_decodeSecond(answer,d,n)
 
 
         client.send(PayloadType.SERVER, res)
