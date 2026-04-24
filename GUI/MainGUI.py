@@ -4,7 +4,7 @@ import sys
 from PyQt6 import uic, QtWidgets
 
 
-from Servers_tests import run_server_task, run_server_hash, run_server_diffie, run_server_rsa, run_chat_mode
+from Servers_tests import run_server_task, run_server_hash, run_server_diffie, run_chat_mode
 from test_codes.RSA import generate_keys, rsa_encode, transform_encoded_byte, rsa_decodeFirst, rsa_decodeSecond
 from test_codes.cypher import shift_encode, shift_findKey, shift_decode
 from test_codes.vigenere import vigenere_encode
@@ -183,7 +183,7 @@ class ProjetCrypto(QtWidgets.QMainWindow):
         elif self.rsa_decode.isChecked() == True:
             action = "decode"
             run_server_task("RSA",action,msg_length,self.print_server)
-            #run_server_rsa(action,msg_length)
+
         else:
             self.print_server.append("Choisir entre encode ou decode")
 

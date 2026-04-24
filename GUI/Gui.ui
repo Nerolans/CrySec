@@ -149,7 +149,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QFrame" name="frame_Shift">
@@ -865,7 +865,7 @@
      </widget>
     </widget>
     <widget class="QWidget" name="page_6">
-     <widget class="QFrame" name="frame_DiffHel">
+     <widget class="QFrame" name="frame_Shift_3">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -880,38 +880,61 @@
       <property name="frameShadow">
        <enum>QFrame::Shadow::Raised</enum>
       </property>
-      <widget class="QLineEdit" name="DiffHel_max">
+      <widget class="QLineEdit" name="shift_key_3">
        <property name="geometry">
         <rect>
-         <x>110</x>
-         <y>30</y>
-         <width>121</width>
+         <x>80</x>
+         <y>140</y>
+         <width>113</width>
          <height>20</height>
         </rect>
        </property>
+      </widget>
+      <widget class="QPushButton" name="btn_shift_findKey_3">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>210</y>
+         <width>101</width>
+         <height>28</height>
+        </rect>
+       </property>
        <property name="text">
-        <string>5000</string>
+        <string>find Key</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_shift_encode_3">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>180</y>
+         <width>101</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Encode</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_18">
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>30</y>
+         <y>140</y>
          <width>51</width>
          <height>20</height>
         </rect>
        </property>
        <property name="text">
-        <string>Max :</string>
+        <string>Key (Int) :</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="btn_DiffHel_serverTest_3">
+      <widget class="QPushButton" name="btn_shift_serverTest_3">
        <property name="geometry">
         <rect>
-         <x>370</x>
-         <y>130</y>
-         <width>111</width>
+         <x>350</x>
+         <y>180</y>
+         <width>101</width>
          <height>28</height>
         </rect>
        </property>
@@ -922,8 +945,8 @@
       <widget class="QLabel" name="label_19">
        <property name="geometry">
         <rect>
-         <x>380</x>
-         <y>110</y>
+         <x>370</x>
+         <y>10</y>
          <width>91</width>
          <height>21</height>
         </rect>
@@ -932,160 +955,99 @@
         <string>test server DifHel</string>
        </property>
       </widget>
+      <widget class="QCheckBox" name="shift_encode_3">
+       <property name="geometry">
+        <rect>
+         <x>400</x>
+         <y>110</y>
+         <width>71</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>encode</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="shift_decode_3">
+       <property name="geometry">
+        <rect>
+         <x>320</x>
+         <y>110</y>
+         <width>74</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>decode</string>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="difhel_text">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>221</width>
+         <height>87</height>
+        </rect>
+       </property>
+      </widget>
       <widget class="QLabel" name="label_20">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>320</x>
          <y>60</y>
-         <width>91</width>
-         <height>20</height>
+         <width>41</width>
+         <height>21</height>
         </rect>
        </property>
        <property name="text">
-        <string>Modular Word :</string>
+        <string>length</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_24">
+      <widget class="QSpinBox" name="shift_length_3">
+       <property name="geometry">
+        <rect>
+         <x>380</x>
+         <y>60</y>
+         <width>78</width>
+         <height>26</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_21">
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>90</y>
-         <width>91</width>
-         <height>20</height>
+         <y>0</y>
+         <width>161</width>
+         <height>21</height>
         </rect>
        </property>
        <property name="text">
-        <string>Generator:</string>
+        <string>texte à encoder / déchiffrer :</string>
        </property>
       </widget>
-      <widget class="QLabel" name="label_25">
+      <widget class="QTextEdit" name="shift_result_3">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>120</y>
-         <width>91</width>
-         <height>20</height>
+         <x>10</x>
+         <y>240</y>
+         <width>221</width>
+         <height>81</height>
         </rect>
        </property>
-       <property name="text">
-        <string>Private D</string>
-       </property>
       </widget>
-      <widget class="QLabel" name="label_26">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>150</y>
-         <width>91</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Public A</string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_27">
+      <widget class="QPushButton" name="btn_shift_decode_3">
        <property name="geometry">
         <rect>
          <x>20</x>
          <y>180</y>
-         <width>91</width>
-         <height>20</height>
+         <width>101</width>
+         <height>28</height>
         </rect>
        </property>
        <property name="text">
-        <string>Public B</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="DiffHel_prime">
-       <property name="geometry">
-        <rect>
-         <x>110</x>
-         <y>60</y>
-         <width>121</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="DiffHel_generator">
-       <property name="geometry">
-        <rect>
-         <x>110</x>
-         <y>90</y>
-         <width>121</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="DiffHel_key_private">
-       <property name="geometry">
-        <rect>
-         <x>110</x>
-         <y>120</y>
-         <width>121</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="DiffHel_key_public_a">
-       <property name="geometry">
-        <rect>
-         <x>110</x>
-         <y>150</y>
-         <width>121</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="DiffHel_key_public_b">
-       <property name="geometry">
-        <rect>
-         <x>110</x>
-         <y>180</y>
-         <width>121</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_28">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>210</y>
-         <width>91</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Secret</string>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="DiffHel_secret">
-       <property name="geometry">
-        <rect>
-         <x>110</x>
-         <y>210</y>
-         <width>121</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string/>
+        <string>Decode</string>
        </property>
       </widget>
      </widget>

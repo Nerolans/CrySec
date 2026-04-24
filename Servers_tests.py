@@ -67,7 +67,9 @@ def run_server_task(algo_name: str,action,param = 6, gui=None):
         if "Unknown" in instr or "Wrong" in instr:
             return
 
-        if algo_name != "RSA" and action != "decode":
+        secret, res = None, None
+
+        if algo_name != "RSA" or action != "decode":
             _, secret = client.receive()
             print(f"Secret: {secret}")
             gui.append(f"Secret: {secret}")
@@ -95,7 +97,9 @@ def run_server_task(algo_name: str,action,param = 6, gui=None):
                 n = instr.split("n=")[1].split(", e")[0]
                 e = instr.split("e=")[1]
                 res = rsa_encode(secret, int(n), int(e))
+                print(f"{res}")
                 gui.append(f"message encoder : {transform_encoded_byte(res)}")
+
             elif action == "decode":
                 print("decode")
                 res = rsa_decodeFirst()
@@ -133,9 +137,7 @@ def run_server_task(algo_name: str,action,param = 6, gui=None):
             _, answer = client.receive()
             print(answer)
 
-        client.send(PayloadType.SERVER, str(str(n)+","+str(e)))
-        _, answer = client.receive()
-        res = rsa_decodeSecond(answer,d,n)
+
 
 
         client.send(PayloadType.SERVER, res)
@@ -185,48 +187,6 @@ def run_server_hash(action, gui=None):
         _, verdict = client.receive()
         print(f"Verdict: {verdict}")
         gui.append(f"Verdict: {verdict}")
-
-    finally:
-        client.disconnect()
-
-def run_server_rsa(action, param):
-    #action = input("Action (encode/decode) [default: encode]: ") or "encode"
-    #param = input("Paramètre (ex: 6 ou 200) [default: 6]: ") or "6"
-    full_command = f"task RSA {action} {param}"
-    client = NetworkClient(ip_server, port_server)
-
-    try:
-        client.connect()
-        client.send(PayloadType.SERVER, full_command)
-
-        msg_type, *_, instr = client.receive()
-        print(f"Instruction: {instr}")
-
-        if "Unknown" in instr or "Wrong" in instr:
-            return
-
-        words = instr.split()
-        key = words[-1]
-
-        if action == "encode":
-            _, secret = client.receive()
-            print(f"Secret: {secret}")
-            n = instr.split("n=")[1].split(", e")[0]
-            e = instr.split("e=")[1]
-            res = rsa_encode(secret, int(n), int(e))
-
-        elif action == "decode":
-            res = rsa_decodeFirst()
-            n = res[0]
-            e = res[1]
-            d = res[2]
-            client.send(PayloadType.SERVER, str(str(n)+","+str(e)))
-            _, answer = client.receive()
-            res = rsa_decodeSecond(answer,d,n)
-
-        client.send(PayloadType.SERVER, res)
-        _, verdict = client.receive()
-        print(f"Verdict: {verdict}")
 
     finally:
         client.disconnect()
