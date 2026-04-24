@@ -44,7 +44,14 @@ class ProjetCrypto(QtWidgets.QMainWindow):
         self.btn_mode_chat.clicked.connect(self.activer_chat)
         self.btn_chat_send.clicked.connect(self.btn_send_chat)
         #-------------------------------------------------------------------------------------------------------------------
-
+        #-------------------------------------------------------------------------------------------------------------------
+        # Bouton dans la frame RSA
+        self.btn_mode_rsa.clicked.connect(self.activer_rsa)
+        self.btn_rsa_serverTest.clicked.connect(self.btn_test_rsa)
+        self.btn_rsa_encode.clicked.connect(self.btn_encode_rsa)
+        self.btn_rsa_decode.clicked.connect(self.btn_decode_rsa)
+        self.btn_rsa_generate.clicked.connect(self.btn_generate_rsa)
+        #-------------------------------------------------------------------------------------------------------------------
     def activer_shift(self):
         self.page_crypto.setCurrentIndex(0)
         self.print_server.clear()
@@ -63,12 +70,20 @@ class ProjetCrypto(QtWidgets.QMainWindow):
         self.hash_result.clear()
         self.print_server.append("Mode Hash sélectionné")
 
-    def activer_chat(self):
+    def activer_rsa(self):
         self.page_crypto.setCurrentIndex(3)
         self.print_server.clear()
+        self.rsa_text.clear()
+        self.print_server.append("Mode RSA sélectionné")
+
+    def activer_chat(self):
+        self.page_crypto.setCurrentIndex(5)
+        self.print_server.clear()
         self.chat_text.clear()
-        self.print_server.append("Mode tchat sélectionné")
+        self.print_server.append("Mode chat sélectionné")
         run_chat_mode(self.chat_client,self.print_server)
+
+
 
 
 #-------------------------------------------------------------------------------------------------------------------
@@ -152,6 +167,19 @@ class ProjetCrypto(QtWidgets.QMainWindow):
         msg = str(self.chat_text.toPlainText())
         self.chat_client.send(PayloadType.TEXT, msg)
         self.chat_text.clear()
+#-------------------------------------------------------------------------------------------------------------------
+# Fonction dans la frame RSA
+#-------------------------------------------------------------------------------------------------------------------
+    def btn_test_rsa(self):
+        return
+    def btn_encode_rsa(self):
+        return
+    def btn_decode_rsa(self):
+        return
+    def btn_generate_rsa(self):
+        return
+
+
 # --- Lancement ---
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
