@@ -17,6 +17,7 @@ class NetworkClient:
         self.is_connected = True
         print("Connected")
 
+
     def disconnect(self):
         self.is_connected = False
         if self.socket:
@@ -35,35 +36,42 @@ class NetworkClient:
 
     def set_callback(self, callback):
         self.callback = callback
+        print(callback)
 
-    def start_listening(self):
+    def start_listening(self,gui = None):
         if not self.is_connected:
             print("Erreur: Non connecté au serveur.")
+            gui.append("Erreur: Non connecté au serveur.")
             return
 
-        thread = threading.Thread(target=self._receive_loop, daemon=True)
+        thread = threading.Thread(target=self._receive_loop,args=(gui,), daemon=True)
         thread.start()
+        gui.append("lancement du thread")
 
-    def _receive_loop(self):
-
+    def _receive_loop(self,gui = None):
         while self.is_connected:
+
             try:
                 reponse_brute = self.socket.recv(4096)
                 if not reponse_brute:
+                    gui.append(f"break")
                     break
 
                 msg_type, text = PayloadHandler.parse_payload(reponse_brute)
                 if self.callback:
+                    gui.append(f"callback")
                     self.callback(msg_type, text)
                 else:
-                    sys.stdout.write('\r\033[K')
+
                     print(f"[Reçu] : {text}")
-                    sys.stdout.write('> ')
-                    sys.stdout.flush()
+                    gui.append(f"[Reçu] : {text}")
+
+
 
             except Exception as e:
                 if self.is_connected:
                     print(f"\n[Erreur de réception] {e}")
+                    gui.append(f"fin de la boucle while")
                 break
 
         self.disconnect()

@@ -20,7 +20,7 @@ def hash_1(msg):
     return newS.hexdigest()
 
 def verify(msg, hash):
-    if hashlib.sha256(msg) == hash:
+    if hash_1(msg) == hash:
         return True
     else:
         return False

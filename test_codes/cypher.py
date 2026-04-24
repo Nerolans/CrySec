@@ -1,15 +1,15 @@
 from statistics import mode
 
 def shift_encode(msg, key):
-    k = int(key)
     result = ""
     for char in msg:
-        new_code = (ord(char) + k)
+        new_code = (ord(char) + key)
         result += chr(new_code)
     return result
 
 def shift_decode(msg, key):
-    shift_encode(msg, -key)
+    n_key = -key
+    return shift_encode(msg, n_key)
 
 def shift_findKey(msg):
     result = 0

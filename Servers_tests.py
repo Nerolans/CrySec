@@ -19,43 +19,36 @@ import sys
 ip_server = 'vlbelintrocrypto.hevs.ch'
 port_server = 6000
 
-def run_chat_mode():
-    # 1. Configuration du client
-    client = NetworkClient('vlbelintrocrypto.hevs.ch', 6000)
+def run_chat_mode(client,gui = None):
+    #def on_message(msg_type, text):
+#        sys.stdout.write('\r\033[K')
+   #     print(f"\r[Message Reçu] : {text}")
+   #     gui.append(f"\r[Message Reçu] : {text}")
+#        sys.stdout.write('> ')
+#       sys.stdout.flush()
 
-    # 2. On définit ce qu'on fait quand on reçoit un message
-    def on_message(msg_type, text):
-        # Efface la ligne actuelle (le "> "), affiche le message, et remet le "> "
-        sys.stdout.write('\r\033[K')
-        print(f"\r[Message Reçu] : {text}")
-        sys.stdout.write('> ')
-        sys.stdout.flush()
-
-    client.set_callback(on_message)
+   # client.set_callback(on_message)
 
     try:
         client.connect()
-        client.start_listening() # LE THREAD SE LANCE ICI
+        client.start_listening(gui)
 
         print("\n--- BIENVENUE DANS LE CHAT ---")
         print("(Tapez '/quit' pour revenir au menu principal)")
+        gui.append("\n--- BIENVENUE DANS LE CHAT ---")
 
-        # 3. Boucle d'envoi (le thread d'écoute tourne tout seul à côté)
-        while True:
-            msg = input("> ")
+ #       while True:
+         #   msg = input("> ")
 
-            if msg.lower() == '/quit':
-                print("Retour au menu...")
-                break
+ #           if msg.lower() == '/quit':
+ #               print("Retour au menu...")
+ #               break
 
-            if msg.strip():
-                # On envoie le message au serveur
-                client.send(PayloadType.TEXT, msg)
+  #          if msg.strip():
+  #              client.send(PayloadType.TEXT, msg)
 
     except Exception as e:
         print(f"Erreur de connexion : {e}")
-    finally:
-        client.disconnect()
 
 def run_server_task(algo_name: str,action,param = 6, gui=None):
     #action = input("Action (encode/decode) [default: encode]: ") or "encode"
@@ -107,8 +100,8 @@ def run_server_task(algo_name: str,action,param = 6, gui=None):
     finally:
         client.disconnect()
 
-def run_server_hash():
-    action = input("Action (hash/verify) [default: hash]: ") or "hash"
+def run_server_hash(action, gui=None):
+    #action = input("Action (hash/verify) [default: hash]: ") or "hash"
     full_command = f"task hash {action}"
     client = NetworkClient(ip_server, port_server)
 
@@ -118,7 +111,7 @@ def run_server_hash():
 
         msg_type, *_, instr = client.receive()
         print(f"Instruction: {instr}")
-
+        gui.append(f"Instruction: {instr}")
         if "Unknown" in instr or "Wrong" in instr:
             return
 
@@ -127,19 +120,25 @@ def run_server_hash():
         secret = clean_secret(corrupted_secret)
         print(secret)
         print(f"Secret: {secret}")
+        gui.append(f"Secret: {secret}")
 
         words = instr.split()
         key = words[-1]
 
+
         if action == "hash":
             res = hash_1(secret)
         elif action == "verify":
-            res = ""
-            #res = verify(secret,hash)
-
+            isValide = verify(secret,key)
+            if isValide == True:
+                res = "true"
+            else:
+                res = "false"
+        gui.append(f"le hash est : {res}")
         client.send(PayloadType.SERVER, res)
         _, verdict = client.receive()
         print(f"Verdict: {verdict}")
+        gui.append(f"Verdict: {verdict}")
 
     finally:
         client.disconnect()
@@ -159,9 +158,6 @@ def run_server_rsa():
 
         if "Unknown" in instr or "Wrong" in instr:
             return
-
-        ##ici rien a recevoir si l'action est "decode"
-
 
         words = instr.split()
         key = words[-1]
