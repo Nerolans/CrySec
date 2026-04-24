@@ -6,10 +6,12 @@ from Gui import Ui_MainWindow
 
 
 from Servers_tests import run_server_task, run_server_hash, run_server_diffie, run_server_rsa, run_chat_mode
+from test_codes.RSA import generate_keys, rsa_encode, transform_encoded_byte, rsa_decodeFirst, rsa_decodeSecond
 from test_codes.cypher import shift_encode, shift_findKey, shift_decode
 from test_codes.vigenere import vigenere_encode
 from test_codes.hash import *
 from clientConnect import *
+from Payload import PayloadHandler, PayloadType
 
 
 class ProjetCrypto(QtWidgets.QMainWindow):
@@ -171,13 +173,42 @@ class ProjetCrypto(QtWidgets.QMainWindow):
 # Fonction dans la frame RSA
 #-------------------------------------------------------------------------------------------------------------------
     def btn_test_rsa(self):
-        return
+        msg_length = self.rsa_length.value()
+        if msg_length == 0:
+            self.print_server.append("Choisir une taille !!!")
+
+        if self.rsa_encode.isChecked() == True:
+            action = "encode"
+            run_server_task("RSA",action,msg_length,self.print_server)
+
+        elif self.rsa_decode.isChecked() == True:
+            action = "decode"
+            run_server_task("RSA",action,msg_length,self.print_server)
+            #run_server_rsa(action,msg_length)
+        else:
+            self.print_server.append("Choisir entre encode ou decode")
+
     def btn_encode_rsa(self):
-        return
+        msg = str(self.rsa_text.toPlainText())
+        publickey = int(self.rsa_publickey.text())
+        modular = int(self.rsa_modular.text())
+        msg_encoded_byte = rsa_encode(msg, modular, publickey)
+        result = transform_encoded_byte(msg_encoded_byte)
+        self.rsa_result.append(result)
+
+
     def btn_decode_rsa(self):
-        return
+        msg_encoded = str(self.rsa_result.toPlainText())
+        privatekey = int(self.rsa_privatekey.text())
+        modular = int(self.rsa_modular.text())
+        res = rsa_decodeSecond(msg_encoded,privatekey,modular)
+        self.rsa_text.setText(str(res))
+
     def btn_generate_rsa(self):
-        return
+        modular, publickey, privatekey = generate_keys()
+        self.rsa_modular.setText(str(modular))
+        self.rsa_publickey.setText(str(publickey))
+        self.rsa_privatekey.setText(str(privatekey))
 
 
 # --- Lancement ---

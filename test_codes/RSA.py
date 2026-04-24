@@ -11,9 +11,14 @@ def rsa_encode(msg, n, e):
         result += int.to_bytes(number, length=4)
     return result
 
-
-
-
+def transform_encoded_byte(msg_encoded_byte):
+    nombres_affichables = []
+    for i in range(0, len(msg_encoded_byte), 4):
+        bloc = msg_encoded_byte[i:i+4]
+        nombre = int.from_bytes(bloc, byteorder='big')
+        nombres_affichables.append(str(nombre))
+    texte_final = " ".join(nombres_affichables)
+    return texte_final
 ################################################################################################
 def rsa_decodeSecond(msg, d, n):
     arr = msg.split(" ")
