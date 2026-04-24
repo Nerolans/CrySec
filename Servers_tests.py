@@ -113,33 +113,6 @@ def run_server_task(algo_name: str,action,param = 6, gui=None):
                 res = rsa_decodeSecond(answer,d,n)
                 gui.append(f"le message decoder est : {res}")
 
-
-        elif algo_name == "DifHel":
-            #first part
-            prime = generate_prime(1000,5000)
-            generator = find_p_root(prime)
-            res = str(prime)+","+str(generator)
-            client.send(PayloadType.SERVER, res)
-            _, answer = client.receive()
-            print(answer)
-
-            #second part (generate our own public key)
-            _, b_public = client.receive()
-            private = generate_private()
-            a_public = generate_publicKey(prime,generator, private)
-            client.send(PayloadType.SERVER, str(a_public))
-            _, answer = client.receive()
-            print(answer)
-
-            #third part (generate secret)
-            secret = calculate_secret(int(b_public), private, prime)
-            client.send(PayloadType.SERVER, str(secret))
-            _, answer = client.receive()
-            print(answer)
-
-
-
-
         client.send(PayloadType.SERVER, res)
         _, verdict = client.receive()
         print(f"Verdict: {verdict}")
@@ -191,44 +164,39 @@ def run_server_hash(action, gui=None):
     finally:
         client.disconnect()
 
-def run_server_diffie():
+def run_server_diffie(action, output=None, gui=None):
     full_command = f"task DifHel"
     client = NetworkClient(ip_server, port_server)
 
-    try:
+    if action == "init":
         client.connect()
         client.send(PayloadType.SERVER, full_command)
 
         msg_type, *_, instr = client.receive()
         print(f"Instruction: {instr}")
-
+        output.append(instr)
         if "Unknown" in instr or "Wrong" in instr:
             return
 
-        words = instr.split()
-        key = words[-1]
-
-        #first part
-        prime = generate_prime(1000,5000)
-        generator = find_p_root(prime)
-        res = str(prime)+","+str(generator)
+    if action == "first":
+        res = str(gui.DiffHel_prime)+","+str(gui.DiffHel_generator)
         client.send(PayloadType.SERVER, res)
         _, answer = client.receive()
         print(answer)
-
-        #second part (generate our own public key)
+        output.append(answer)
         _, b_public = client.receive()
-        private = generate_private()
-        a_public = generate_publicKey(prime,generator, private)
-        client.send(PayloadType.SERVER, str(a_public))
+        gui.DiffHel_key_public_b.setText(str(b_public))
+
+    if action == "second":
+        client.send(PayloadType.SERVER, str(gui.DiffHel_key_public_a.text()))
         _, answer = client.receive()
         print(answer)
+        output.append(answer)
 
-        #third part (generate secret)
-        secret = calculate_secret(int(b_public), private, prime)
-        client.send(PayloadType.SERVER, str(secret))
+    if action == "third":
+        client.send(PayloadType.SERVER, str(gui.DiffHel_secret.text()))
         _, answer = client.receive()
         print(answer)
-
-    finally:
+        output.append(answer)
         client.disconnect()
+

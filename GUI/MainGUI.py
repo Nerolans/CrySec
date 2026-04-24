@@ -59,6 +59,8 @@ class ProjetCrypto(QtWidgets.QMainWindow):
         self.btn_mode_diffie.clicked.connect(self.activer_diffHel)
         self.btn_DiffHel_connect.clicked.connect(self.btn_connect_diffHel)
 
+        self.btn_DiffHel_direct.clecked.connect(self.btn_direct_diffHel)
+
         self.btn_DiffHel_part1_Send.clicked.connect(self.btn_part1_diffHel)
         self.btn_DiffHel_part2_Send.clicked.connect(self.btn_part2_diffHel)
         self.btn_DiffHel_part3_Send.clicked.connect(self.btn_part3_diffHel)
@@ -250,6 +252,9 @@ class ProjetCrypto(QtWidgets.QMainWindow):
 
 
     #Server
+    def btn_direct_diffHel(self):
+        run_server_task("init", self.print_server, self)
+
     def btn_connect_diffHel(self):
         run_server_diffie("init", self.print_server, self)
 
