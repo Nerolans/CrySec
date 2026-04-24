@@ -1166,19 +1166,6 @@
         <string>Connect</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="btn_DiffHel_part1_Send_2">
-       <property name="geometry">
-        <rect>
-         <x>110</x>
-         <y>280</y>
-         <width>121</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>direct Testing</string>
-       </property>
-      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="page_4">
